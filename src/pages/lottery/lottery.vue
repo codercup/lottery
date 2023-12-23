@@ -77,6 +77,7 @@ async function beginGame() {
 
   // 从后端获取，指向哪个index,这里随便给一个模拟后端返回
   drawIndex.value = randomIndex()
+  console.log(drawIndex.value)
 
   if (drawIndex.value < 0) {
     return
@@ -85,6 +86,10 @@ async function beginGame() {
   await run()
   setTimeout(() => {
     emit('finished')
+    uni.showModal({
+      title: '恭喜中奖',
+      content: prizeList[drawIndex.value].name,
+    })
     setTimeout(() => {
       resetAngle()
     }, 1000)
