@@ -7,6 +7,14 @@
       "style": {
         "navigationBarTitleText": "我才是标题"
       }
+    },
+    {
+      "path": "pages/lottery/lottery",
+      "type": "page",
+      "layout": "home",
+      "style": {
+        "navigationBarTitleText": "抽奖转盘"
+      }
     }
   ],
   "globalStyle": {
