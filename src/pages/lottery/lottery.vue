@@ -1,7 +1,7 @@
 <template>
   <view class="lottery flex items-center">
     <view class="outer-container">
-      <view class="inner-container">
+      <view class="inner-container" :style="rotateStyle">
         <view
           class="prize-box"
           v-for="(item, idx) in prizeList"
@@ -19,7 +19,7 @@
           </view>
         </view>
       </view>
-      <view class="draw-btn">
+      <view class="draw-btn" @click="beginGame">
         <image
           class="draw-btn-img"
           src="https://cip-shopping-page-0eysug01066a9e-1302818703.tcloudbaseapp.com/lottery-img/%E8%BD%AC%E7%9B%98-btn.png"
@@ -39,6 +39,8 @@
 }
 </route>
 <script setup lang="ts" name="Lottery">
+import { useTurntable } from './useTurntable'
+
 // 经过我的检测，分成6分的页面效果是最好的
 const prizeList = [
   {
@@ -66,6 +68,28 @@ const prizeList = [
     img: 'https://comp-prd-cos-1254375538.cos.ap-beijing.myqcloud.com/baby-h5-images/comp-nodeserver-midway/activity/lucky-turntable/award2.png',
   },
 ]
+const emit = defineEmits(['begin', 'finished'])
+
+const { run, randomIndex, rotateStyle, drawIndex, resetAngle } = useTurntable()
+
+async function beginGame() {
+  emit('begin')
+
+  // 从后端获取，指向哪个index,这里随便给一个模拟后端返回
+  drawIndex.value = randomIndex()
+
+  if (drawIndex.value < 0) {
+    return
+  }
+
+  await run()
+  setTimeout(() => {
+    emit('finished')
+    setTimeout(() => {
+      resetAngle()
+    }, 1000)
+  }, 600)
+}
 </script>
 
 <style scoped lang="scss">
